@@ -1,4 +1,5 @@
 import pygame
+import os
 import random as rm
 from classes import Survivor
 from classes import Companion
@@ -42,9 +43,10 @@ Dog = Companion(rm.choice(pointsx), rm.choice(pointsy))
 player_sprites.add(Player_Char)
 Companion_sprites.add(Dog)
 
-player_image = pygame.image.load("HUCK.png").convert_alpha()
-player_scaled= pygame.transform.scale(player_image, (40, 60))
-
+player_image = os.path.join("HUCK_SURVIVAL", "assets","HUCK.png")
+player_scaled = pygame.transform.scale(player_image, (40, 60))
+companion_image = os.path.join("HUCK_SURVIVAL", "assets", "HUCK.png")
+companion_scaled = pygame.transform.scale(companion_scaled, (60,40))
 
 def player_chase():
     if Player_Char.rect.x + 56 < Dog.rect.x:
