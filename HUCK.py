@@ -1,6 +1,6 @@
 import pygame
-import os
 import random as rm
+import os, os.path
 from classes import Survivor
 from classes import Companion
 from perlin_noise import PerlinNoise
@@ -43,20 +43,28 @@ Dog = Companion(rm.choice(pointsx), rm.choice(pointsy))
 player_sprites.add(Player_Char)
 Companion_sprites.add(Dog)
 
-player_image = os.path.join("HUCK_SURVIVAL", "assets","HUCK.png")
+player_image_path = os.path.join("assets", "HUCK.png")
+player_image = pygame.image.load(player_image_path)
 player_scaled = pygame.transform.scale(player_image, (40, 60))
-companion_image = os.path.join("HUCK_SURVIVAL", "assets", "HUCK.png")
-companion_scaled = pygame.transform.scale(companion_scaled, (60,40))
+
+companion_image_path = os.path.join("assets", "HUCK_DOG.png")
+companion_image = pygame.image.load(companion_image_path)
+companion_scaled = pygame.transform.scale(companion_image, (60, 40))
 
 def player_chase():
     if Player_Char.rect.x + 56 < Dog.rect.x:
-        Dog.rect.x -= 7
+        Dog.rect.x -= 5
+        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))
     elif Player_Char.rect.x + 56 > Dog.rect.x:
-        Dog.rect.x += 7
+        companion_scaled = pygame.transform.flip(companion_image, True, False)
+        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))
+        Dog.rect.x += 5
     if Player_Char.rect.y < Dog.rect.y:
-        Dog.rect.y -= 10
+        Dog.rect.y -= 5
+        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))
     elif Player_Char.rect.y > Dog.rect.y:
-        Dog.rect.y += 10
+        Dog.rect.y += 5
+        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))    
 
 def proc_gen():
     # generating the map
@@ -106,6 +114,5 @@ while True:
     player_chase()
     proc_gen()
     screen.blit(player_scaled,(Player_Char.rect.x, Player_Char.rect.y))
-    Companion_sprites.draw(screen)
     pygame.display.update()
     pygame.display.flip()
