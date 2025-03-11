@@ -50,21 +50,18 @@ player_scaled = pygame.transform.scale(player_image, (40, 60))
 companion_image_path = os.path.join("assets", "HUCK_DOG.png")
 companion_image = pygame.image.load(companion_image_path)
 companion_scaled = pygame.transform.scale(companion_image, (60, 40))
+companion_scaled_flip = pygame.transform.flip(companion_scaled, True, False)
 
 def player_chase():
-    if Player_Char.rect.x + 56 < Dog.rect.x:
+    if Player_Char.rect.x + 50 < Dog.rect.x:
         Dog.rect.x -= 5
-        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))
-    elif Player_Char.rect.x + 56 > Dog.rect.x:
-        companion_scaled = pygame.transform.flip(companion_image, True, False)
-        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))
+    elif Player_Char.rect.x + 50 > Dog.rect.x:
         Dog.rect.x += 5
     if Player_Char.rect.y < Dog.rect.y:
         Dog.rect.y -= 5
-        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))
     elif Player_Char.rect.y > Dog.rect.y:
         Dog.rect.y += 5
-        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))    
+            
 
 def proc_gen():
     # generating the map
@@ -114,5 +111,9 @@ while True:
     player_chase()
     proc_gen()
     screen.blit(player_scaled,(Player_Char.rect.x, Player_Char.rect.y))
+    if Player_Char.rect.x < Dog.rect.x:
+        screen.blit(companion_scaled, (Dog.rect.x, Dog.rect.y))
+    else:
+        screen.blit(companion_scaled_flip, (Dog.rect.x, Dog.rect.y))
     pygame.display.update()
     pygame.display.flip()
